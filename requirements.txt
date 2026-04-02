@@ -1,0 +1,11 @@
+torch
+transformers
+datasets
+gradio
+requests
+beautifulsoup4
+selenium
+webdriver-manager
+tqdm
+pandas
+nest-asyncio
