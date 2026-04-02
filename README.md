@@ -222,17 +222,6 @@ For questions or feedback, please open an issue on GitHub.
 ⭐ Show Your Support
 If this project helped you, please give it a star on GitHub!
 
-text
-
----
-
-## 📌 Что ещё добавить (опционально)
-
-### Создайте файл `LICENSE` (если нужен)
-
-```text
-MIT License
-
 Copyright (c) 2026 Nikitos3x
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
