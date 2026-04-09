@@ -1,229 +1,213 @@
-# 🪑 Furniture NER Extractor
+🪑 Мебельный NER Экстрактор
+https://img.shields.io/badge/python-3.11+-blue.svg
+https://img.shields.io/badge/license-MIT-green.svg
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+Извлечение названий мебельных товаров с веб-сайтов с помощью NER модели.
 
-**NER model for extracting furniture product names from e-commerce websites.**
+Этот проект реализует полный пайплайн для обучения модели NER (Named Entity Recognition), которая определяет названия мебельных товаров на веб-страницах. Включает сбор данных, обучение модели и веб-интерфейс для демонстрации.
 
-This project implements a complete pipeline for training a Named Entity Recognition (NER) model that identifies furniture product names in web pages. It includes data collection, model training, and a web interface for demonstration.
+🎯 Возможности
+Полный пайплайн обучения NER – сбор данных, разметка, обучение и оценка
 
----
+Два метода извлечения – CSS-селекторы (структурный) + NER модель (семантический)
 
-## 🎯 Features
+Пакетная обработка CSV – извлечение товаров из нескольких URL одновременно
 
-- **Complete NER training pipeline** – collect data, annotate, train, and evaluate
-- **Two extraction methods** – CSS selectors (structural) + NER model (semantic)
-- **CSV batch processing** – extract products from multiple URLs at once
-- **Web interface** – Gradio-based UI for easy testing
-- **Model comparison** – compare pretrained vs your trained model
-- **Local model storage** – train once, use offline
+Веб-интерфейс – удобный UI на Gradio для тестирования
 
----
+Сравнение моделей – сравнение предобученной и вашей обученной модели
 
-## 📁 Project Structure
+Локальное хранение модели – обучил один раз, используй офлайн
 
+📁 Структура проекта
+text
 furniture-ner-project/
-├── scripts/
-│ ├── main.py # Single URL extraction (console)
-│ ├── database_builder.py # Batch processing from CSV
-│ ├── web_app.py # Web interface (Gradio)
-│ ├── prepare_training_data.py # Collect and annotate data
-│ ├── train_model.py # Train NER model
-│ └── compare_models.py # Compare model performance
-├── src/
-│ ├── crawler.py # Web scraping utilities
-│ ├── model_predict.py # Model inference wrapper
-│ └── trainer.py # Training utilities
-├── models/
-│ └── furniture_ner/ # Your trained model (weights excluded)
-├── data/
-│ ├── databases/
-│ │ └── URL_list.csv # Input URLs for batch processing
-│ └── training/
-│ └── training_data.json # Annotated training examples
-├── requirements.txt
-├── setup.py
-├── run.bat / run.sh # Quick launch scripts
-└── README.md
+│
+├── scripts/                        # Запускаемые скрипты
+│   ├── main.py                     # Извлечение из одного URL (консоль)
+│   ├── database_builder.py         # Пакетная обработка из CSV
+│   ├── web_app.py                  # Веб-интерфейс (Gradio)
+│   ├── prepare_training_data.py    # Сбор и разметка данных
+│   ├── train_model.py              # Обучение NER модели
+│   └── compare_models.py           # Сравнение моделей
+│
+├── src/                            # Переиспользуемые модули
+│   ├── crawler.py                  # Утилиты для веб-парсинга
+│   ├── model_predict.py            # Обёртка для инференса модели
+│   └── trainer.py                  # Утилиты для обучения
+│
+├── models/                         # Сохранённые модели
+│   └── furniture_ner/              # Ваша обученная модель (веса не включены)
+│
+├── data/                           # Данные
+│   ├── databases/
+│   │   ├── URL_list.csv            # URL для пакетной обработки
+│   │   └── products_database.json  # Результаты парсинга
+│   └── training/
+│       └── training_data.json      # Размеченные примеры для обучения
+│
+├── requirements.txt                # Зависимости
+├── setup.py                        # Установка проекта как пакета
+├── run.bat / run.sh                # Скрипты быстрого запуска
+└── README.md                       # Документация
+🚀 Быстрый старт
+Требования
+Python 3.11 или выше
 
----
+pip (менеджер пакетов)
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.11 or higher
-- pip package manager
-
-### Installation
-
-```bash
-# 1. Clone the repository
+Установка
+bash
+# 1. Клонируйте репозиторий
 git clone https://github.com/antonovnikitaa573-ui/furniture-ner-project.git
 cd furniture-ner-project
 
-# 2. Create virtual environment
+# 2. Создайте виртуальное окружение
 python -m venv venv
 
-# 3. Activate it
+# 3. Активируйте его
 # Windows:
 venv\Scripts\activate
 # Mac/Linux:
 source venv/bin/activate
 
-# 4. Install dependencies
+# 4. Установите зависимости
 pip install -r requirements.txt
-
-Run the Web Interface
+Запуск веб-интерфейса
 bash
 python scripts/web_app.py
-Then open http://127.0.0.1:7860 in your browser.
+Затем откройте http://127.0.0.1:7860 в браузере.
 
-📖 Usage Guide
-1. Single URL Extraction (Console)
+📖 Руководство по использованию
+1. Извлечение из одного URL (консоль)
 bash
 python scripts/main.py "https://www.ikea.com/us/en/p/ektorp-sofa-90212345/"
-2. Batch Processing from CSV
-Prepare data/databases/URL_list.csv with a column named url:
+2. Пакетная обработка из CSV
+Подготовьте файл data/databases/URL_list.csv с колонкой url:
 
 csv
 url
 https://www.ikea.com/us/en/p/ektorp-sofa-90212345/
 https://www.westelm.com/furniture/sofas/
-Then run:
+Затем запустите:
 
 bash
 python scripts/database_builder.py
-Results are saved to data/databases/products_database.json.
+Результаты сохранятся в data/databases/products_database.json.
 
-3. Train Your Own Model
-Step 1: Collect training data
+3. Обучение своей модели
+Шаг 1: Сбор данных для обучения
 
 bash
 python scripts/prepare_training_data.py
-This creates data/training/training_data.json with candidate product names.
+Это создаст файл data/training/training_data.json с кандидатами в названия товаров.
 
-Step 2: Annotate manually
+Шаг 2: Ручная разметка
 
-Edit training_data.json – verify that product_name fields are correct.
+Отредактируйте training_data.json – убедитесь, что поля product_name заполнены правильно.
 
-Step 3: Train the model
+Шаг 3: Обучение модели
 
 bash
 python scripts/train_model.py
-The trained model is saved to models/furniture_ner/.
+Обученная модель сохранится в models/furniture_ner/.
 
-Step 4: Use your trained model
+Шаг 4: Использование вашей модели
 
-In scripts/web_app.py, change:
+В файле scripts/web_app.py измените:
 
 python
-USE_TRAINED_MODEL = True   # Use your trained model
-USE_TRAINED_MODEL = False  # Use pretrained fallback
-4. Compare Models
+USE_TRAINED_MODEL = True   # Использовать вашу модель
+USE_TRAINED_MODEL = False  # Использовать готовую модель
+4. Сравнение моделей
 bash
 python scripts/compare_models.py
-Shows side-by-side results from pretrained vs your trained model.
+Показывает результаты предобученной и вашей обученной модели рядом.
 
-🧠 How It Works
-Architecture
+🧠 Как это работает
+Архитектура
 text
-User URL → Fetch HTML → Extract Text → NER Model → Product Names
+User URL → Загрузка HTML → Извлечение текста → NER модель → Названия товаров
                                       ↑
-                           CSS Selectors (fallback)
-NER Model
-Base architecture: distilbert-base-uncased
+                           CSS-селекторы (запасной метод)
+NER модель
+Базовая архитектура: distilbert-base-uncased
 
-Labels: B-PRODUCT (beginning), I-PRODUCT (inside), O (outside)
+Метки: B-PRODUCT (начало), I-PRODUCT (внутри), O (вне)
 
-Training data: ~100 manually annotated furniture product pages
+Данные для обучения: ~100 страниц с ручной разметкой
 
-Fallback: dslim/bert-base-NER if no trained model exists
+Запасной вариант: dslim/bert-base-NER (если нет обученной модели)
 
-Extraction Methods
-Method	Speed	Accuracy	Use Case
-CSS Selectors	⚡ Fast	🟡 Medium	Structured product pages
-NER Model	🐢 Slower	🟢 High	Unstructured content
-📊 Example Output
+Методы извлечения
+Метод	Скорость	Точность	Применение
+CSS-селекторы	⚡ Быстро	🟡 Средняя	Структурированные страницы товаров
+NER модель	🐢 Медленнее	🟢 Высокая	Неструктурированный контент
+Пример вывода
 text
-🛋️ RESULTS
+🛋️ РЕЗУЛЬТАТЫ
 ========================================
 URL: https://www.ikea.com/us/en/p/ektorp-sofa-90212345/
 
-📌 CSS Selectors:
+📌 CSS-селекторы:
   • EKTORP Sofa
-  • Product details
+  • Информация о товаре
 
-🧠 NER Model:
+🧠 NER модель:
   • EKTORP
   • Sofa
-  • Cover
-  • Frame
+  • Чехол
+  • Каркас
 
-✅ Total products found: 4
+✅ Всего найдено товаров: 4
 ========================================
-🛠️ Configuration
-Switching Models
-Edit scripts/web_app.py:
+🛠️ Настройка
+Переключение между моделями
+Отредактируйте scripts/web_app.py:
 
 python
-USE_TRAINED_MODEL = True   # Trained model
-USE_TRAINED_MODEL = False  # Pretrained fallback
-Custom CSS Selectors
-Modify src/crawler.py – extract_product_candidates() function:
+USE_TRAINED_MODEL = True   # Ваша обученная модель
+USE_TRAINED_MODEL = False  # Готовая модель
+Пользовательские CSS-селекторы
+Измените функцию extract_product_candidates() в src/crawler.py:
 
 python
 selectors = [
     'h1',
     '.product-title',
-    '.your-custom-class',  
+    '.ваш-пользовательский-класс',  # Добавьте свой
 ]
-📦 Dependencies
-torch – Deep learning framework
+📦 Зависимости
+torch – фреймворк для глубокого обучения
 
-transformers – Hugging Face models
+transformers – модели от Hugging Face
 
-gradio – Web interface
+gradio – веб-интерфейс
 
-beautifulsoup4 – HTML parsing
+beautifulsoup4 – парсинг HTML
 
-requests – HTTP requests
+requests – HTTP-запросы
 
-pandas – CSV handling
+pandas – работа с CSV
 
-tqdm – Progress bars
+tqdm – прогресс-бары
 
-See requirements.txt for full list.
+Полный список см. в requirements.txt.
 
-🤝 Contributing
-Fork the repository
+🤝 Вклад в проект
+Форкните репозиторий
 
-Create a feature branch (git checkout -b feature/amazing)
+Создайте ветку для функции (git checkout -b feature/amazing)
 
-Commit changes (git commit -m 'Add amazing feature')
+Зафиксируйте изменения (git commit -m 'Add amazing feature')
 
-Push to branch (git push origin feature/amazing)
+Отправьте в ветку (git push origin feature/amazing)
 
-Open a Pull Request
+Откройте Pull Request
 
-📝 License
-This project is licensed under the MIT License – see the LICENSE file for details.
+📧 Контакты
+По вопросам и замечаниям, пожалуйста, создайте issue на GitHub.
 
-🙏 Acknowledgments
-Hugging Face for transformers library
+⭐ Поддержите проект
+Если этот проект помог вам, поставьте звезду на GitHub!
 
-dslim/bert-base-NER for pretrained model
-
-Gradio for web interface
-
-📧 Contact
-For questions or feedback, please open an issue on GitHub.
-
-⭐ Show Your Support
-If this project helped you, please give it a star on GitHub!
-
-Copyright (c) 2026 Nikitos3x
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
